@@ -92,7 +92,49 @@ var Router = Backbone.Router.extend({
       });
     },
 
+    resource: function(id){
+      $('#container').empty();
+      $('.jumbotron').hide();
+      var locate = window.location.hash;
+      var point = locate.lastIndexOf('/');
+      var resourceId = parseInt(locate.substring(point+1, locate.length));
+      $.ajax({
+        url: App.url + '/resources/' + resourceId,
+        type: 'GET'
+      }).done(function(response){
+        console.log("I'm getting the resource page");
+        console.log(response);
+        var template = Handlebars.compile($('#resourceTemplate').html());
+        $('#container').html(template({
+          resource: response.resource
+        }));
 
+        $('#update-resource').on('click', function(){
+          App.updateResource();
+        });
+
+        $('#delete-resource').on('click', function(){
+          var result = confirm("Do you want to delete this resource");
+          if (result) {
+            App.deleteResource();
+          }
+        });
+
+        newResource: function(){
+          $('#container').empty().load('partials/resource-form.html', function(response,status,xhr){
+            var $form = $('#resource-form');
+            $form.on('submit',function(event){
+              Resource.newResourceForm(event,$form,router);
+            });
+          });
+        },
+
+        Resource.newResourceForm = function(e,form,router){
+          if(e.preventDefault) e.preventDefault();
+
+        }
+      })
+    }
     })
   }
   )}
