@@ -12,7 +12,6 @@ var trace = function(){
 var App = App || {
   url: 'http://localhost:3000'
 };
-
 var Category = Category || {};
 var Resource = Resource || {};
 var Flashcard = Flashcard || {};
@@ -24,8 +23,8 @@ var Router = Backbone.Router.extend({
     'users/:id': 'user',  //http://localhost:9000/#/users/1
     'categories': 'categories', //http://localhost:9000/#/categories
     'categories/:id': 'category',  //http://localhost:9000/#/categories/1
-    'new-category': 'newcategory',//http://localhost:9000/#/new-category
-    'update-category': 'updatecategory',//http://localhost:9000/#/update-category
+    'new-category': 'newCategory',//http://localhost:9000/#/new-category
+    'update-category': 'updateCategory',//http://localhost:9000/#/update-category
     'resources': 'resources', //http://localhost:9000/#/resources
     'resources/:id': 'resource',  //http://localhost:9000/#/resources/1
 },
@@ -41,7 +40,6 @@ var Router = Backbone.Router.extend({
       url: App.url + '/users',
       type: 'GET'
     }).done(function(response){
-      debugger;
       var template = Handlebars.compile($('#usersTemplate').html());
       $('#container').html(template({
         users: response.users
@@ -65,7 +63,6 @@ var Router = Backbone.Router.extend({
       url: App.url + '/users/' + userId,
       type: 'GET'
     }).done(function(response){
-      debugger;
       var template = Handlebars.compile($('#userTemplate').html());
       $('#container').html(template({
         user: response.user
@@ -122,18 +119,21 @@ var Router = Backbone.Router.extend({
       }));
 
       $('#update-category').on('click', function(){
-        App.updatecategory();
+        App.updateCategory();
       });
 
       $('#delete-category').on('click', function(){
         var result = confirm("Do you want to delete this category?");
         if (result) {
-          App.deletecategory();
+          App.deleteCategory();
         }
       });
 
       $('#new-resource').on('click', function(){
-        resource.newresource();
+        Resource.newResource();
+      });
+      $('#new-category').on('click', function(){
+        Category.newCategory();
       });
 
     }).fail(function(jqXHR, textStatus, errorThrown){
@@ -147,7 +147,7 @@ var Router = Backbone.Router.extend({
     $('#container').empty().load('partials/category-form.html',function(response,status,xhr){
       var $form = $('#category-form');
       $form.on('submit',function(event){
-        category.newProcessForm(event,$form,router);
+        Category.newCategoryForm(event,$form,router);
       });
     });
   },
@@ -186,224 +186,224 @@ var Router = Backbone.Router.extend({
     });
   },
 
-
 });
 
-// category.newProcessForm = function(e,form,router){
-//   if(e.preventDefault) e.preventDefault();
-//   var name = $(form).find("input[name='category-name']").val();
-//   category.newPostParams(name, router);
-// };
+Category.newCategoryForm = function(e,form,router){
+  if(e.preventDefault) e.preventDefault();
+  var name = $(form).find("input[name='category-name']").val();
+  Category.newCategoryParams(name, router);
+};
 
-// category.newPostParams = function(name, router){
-//   $.ajax({
-//     url: App.url + '/categories',
-//     type: 'POST',
-//     data: {
-//       category: {
-//         name: name
-//       },
-//     },
-//     complete: function(jqXHR,textStatus){
-//       trace(jqXHR, textStatus, "complete category!!");
-//     },
-//     success: function(data, textStatus, jqXHR){
-//       router.navigate("categories",{trigger: true});
-//       trace(data,textStatus, jqXHR, "successful post!!");
-//     },
-//     error: function(jqXHR,error,exception){
-//       trace(jqXHR,error,exception);
-//     },
-//   }).done(function(response){
-//     trace(response, "posted category!!");
-//   }).fail(function(jqXHR, textStatus, thrownError){
-//     trace(jqXHR, textStatus, thrownError);
-//     router.navigate("categories",{trigger: true});
-//   }).always(function(response){
-//     trace(response);
-//   });
-// };
+Category.newCategoryParams = function(name, router){
+   $.ajax({
+     url: App.url + '/categories',
+    type: 'POST',
+     data: {
+       category: {
+        name: name
+       },
+     },
+     complete: function(jqXHR,textStatus){
+      trace(jqXHR, textStatus, "complete category!!");
+     },
+     success: function(data, textStatus, jqXHR){
+       router.navigate("categories",{trigger: true});
+       trace(data,textStatus, jqXHR, "successful post!!");
+    },
+    error: function(jqXHR,error,exception){
+      trace(jqXHR,error,exception);
+    },
+   }).done(function(response){
+     trace(response, "posted category!!");
+   }).fail(function(jqXHR, textStatus, thrownError){
+     trace(jqXHR, textStatus, thrownError);
+    router.navigate("categories",{trigger: true});
+  }).always(function(response){
+     trace(response);
+   });
+ };
 
-// resource.newResource = function(){
-//   $('#container').empty().load('partials/resource-form.html',function(response,status,xhr){
-//     var $form = $('#resource-form');
-//     $form.on('submit',function(event){
-//       resource.newResourceForm(event,$form,router);
-//     });
-//   });
-// };
+ Resource.newResource = function(){
+   $('#container').empty().load('partials/resource-form.html',function(response,status,xhr){
+     var $form = $('#resource-form');
+    $form.on('submit',function(event){
+       Resource.newResourceForm(event,$form,router);
+     });
+   });
+ };
 
-// resource.newResourceForm = function(e,form,router){
-//   if(e.preventDefault) e.preventDefault();
-//   var title = $(form).find("input[name='resource-title']").val();
-//   var url = $(form).find("input[name='resource-url']").val();
-//   resource.newResourceParams(title, url, router);
-// };
+Resource.newResourceForm = function(e,form,router){
+   if(e.preventDefault) e.preventDefault();
+   var title = $(form).find("input[name='resource-title']").val();
+   var url = $(form).find("input[name='resource-url']").val();
+   Resource.newResourceParams(title, url, router);
+ };
 
-// resource.newResourceParams = function(title, url, router){
-//   var locate = window.location.hash;
-//   var point = locate.lastIndexOf('/');
-//   var categoryId = parseInt(locate.substring(point+1, locate.length));
-//   $.ajax({
-//     url: App.url + '/categories/' + categoryId + '/resources',
-//     type: 'POST',
-//     data: {
-//       resource: {
-//         title: title,
-//         url: url
-//       },
-//     },
-//     complete: function(jqXHR,textStatus){
-//       trace(jqXHR, textStatus, "complete resource!!");
-//     },
-//     success: function(data, textStatus, jqXHR){
-//       router.navigate("categories",{trigger: true});
-//       trace(data,textStatus, jqXHR, "successful resource!!");
-//     },
-//     error: function(jqXHR,error,exception){
-//       trace(jqXHR,error,exception);
-//     },
-//   }).done(function(response){
-//     trace(response, "posted resource!!");
-//   }).fail(function(jqXHR, textStatus, thrownError){
-//     trace(jqXHR, textStatus, thrownError);
-//     router.navigate("categories",{trigger: true});
-//   }).always(function(response){
-//     trace(response);
-//   });
-// };
+ Resource.newResourceParams = function(title, url, router){
+   var locate = window.location.hash;
+   var point = locate.lastIndexOf('/');
+   var categoryId = parseInt(locate.substring(point+1, locate.length));
+   $.ajax({
+     url: App.url + '/categories/' + categoryId + '/resources',
+     type: 'POST',
+     data: {
+       resource: {
+         title: title,
+         url: url
+       },
+     },
+     complete: function(jqXHR,textStatus){
+       trace(jqXHR, textStatus, "complete resource!!");
+     },
+     success: function(data, textStatus, jqXHR){
+       router.navigate("categories",{trigger: true});
+       trace(data,textStatus, jqXHR, "successful resource!!");
+     },
+     error: function(jqXHR,error,exception){
+       trace(jqXHR,error,exception);
+     },
+   }).done(function(response){
+     trace(response, "posted resource!!");
+   }).fail(function(jqXHR, textStatus, thrownError){
+     trace(jqXHR, textStatus, thrownError);
+     router.navigate("categories",{trigger: true});
+   }).always(function(response){
+     trace(response);
+   });
+ };
 
-// resource.updateResource = function(){
-//   $('#container').empty().load('partials/resource-form.html',function(response,status,xhr){
-//     var $form = $('#resource-form');
-//     $form.on('submit',function(event){
-//       resource.updateResourceForm(event,$form);
-//     });
-//   });
-// };
+ Resource.updateResource = function(){
+   $('#container').empty().load('partials/resource-form.html',function(response,status,xhr){
+     var $form = $('#resource-form');
+     $form.on('submit',function(event){
+       Resource.updateResourceForm(event,$form);
+     });
+   });
+ };
 
-// resource.updateResourceForm = function(e,form){
-//   var locate = window.location.hash;
-//   var point = locate.lastIndexOf('/');
-//   var resourceId = parseInt(locate.substring(point+1, locate.length));
-//   if(e.preventDefault) e.preventDefault();
-//   var title = $(form).find("input[name='resource-title']").val();
-//   var url = $(form).find("input[name='resource-url']").val();
-//   resource.updateResourceParams(title, url, resourceId);
-// };
+ Resource.updateResourceForm = function(e,form){
+   var locate = window.location.hash;
+   var point = locate.lastIndexOf('/');
+   var resourceId = parseInt(locate.substring(point+1, locate.length));
+   if(e.preventDefault) e.preventDefault();
+   var title = $(form).find("input[name='resource-title']").val();
+   var url = $(form).find("input[name='resource-url']").val();
+   Resource.updateResourceParams(title, url, resourceId);
+ };
 
-// resource.updateResourceParams = function(title, url, resourceId){
-//   $.ajax({
-//     url: App.url + '/resources/' + resourceId,
-//     type: 'PATCH',
-//     data: {
-//       resource: {
-//         title: title,
-//         url: url
-//       },
-//     },
-//     complete: function(jqXHR,textStatus){
-//       trace(jqXHR, textStatus, "complete resource!!");
-//     },
-//     success: function(data, textStatus, jqXHR){
-//       router.navigate("categories",{trigger: true});
-//       trace(data,textStatus, jqXHR, "successful resource!!");
-//     },
-//     error: function(jqXHR,error,exception){
-//       trace(jqXHR,error,exception);
-//     },
-//   }).done(function(response){
-//     trace(response, "posted resource!!");
-//   }).fail(function(jqXHR, textStatus, thrownError){
-//     trace(jqXHR, textStatus, thrownError);
-//     router.navigate("categories",{trigger: true});
-//   }).always(function(response){
-//     trace(response);
-//   });
-// };
+ Resource.updateResourceParams = function(title, url, resourceId){
+   $.ajax({
+     url: App.url + '/resources/' + resourceId,
+     type: 'PATCH',
+     data: {
+       resource: {
+         title: title,
+         url: url
+       },
+     },
+    complete: function(jqXHR,textStatus){
+       trace(jqXHR, textStatus, "complete resource!!");
+     },
+     success: function(data, textStatus, jqXHR){
+       router.navigate("categories",{trigger: true});
+       trace(data,textStatus, jqXHR, "successful resource!!");
+     },
+     error: function(jqXHR,error,exception){
+       trace(jqXHR,error,exception);
+     },
+   }).done(function(response){
+     trace(response, "posted resource!!");
+   }).fail(function(jqXHR, textStatus, thrownError){
+     trace(jqXHR, textStatus, thrownError);
+     router.navigate("categories",{trigger: true});
+   }).always(function(response){
+     trace(response);
+   });
+ };
 
-// resource.deleteResource = function(){
-//   $('#container').empty();
-//   $('.jumbotron').hide();
-//   var locate = window.location.hash;
-//   var point = locate.lastIndexOf('/');
-//   var resourceId = parseInt(locate.substring(point+1, locate.length));
-//   $.ajax({
-//     url: App.url + '/resources/' + resourceId,
-//     type: 'DELETE',
-//   }).done(function(data){
-//     trace(data);
-//     trace('deleted category');
-//     window.location.href = '/categories';
-//   }).fail(function(jqXHR, textStatus, errorThrown){
-//     trace(jqXHR, textStatus, errorThrown);
-//   });
-// }
+ Resource.deleteResource = function(){
+   $('#container').empty();
+   $('.jumbotron').hide();
+   var locate = window.location.hash;
+   var point = locate.lastIndexOf('/');
+   var resourceId = parseInt(locate.substring(point+1, locate.length));
+   $.ajax({
+     url: App.url + '/resources/' + resourceId,
+     type: 'DELETE',
+   }).done(function(data){
+     trace(data);
+     trace('deleted category');
+     window.location.href = '/#/categories';
+   }).fail(function(jqXHR, textStatus, errorThrown){
+     trace(jqXHR, textStatus, errorThrown);
+   });
+ };
 
-// App.updateCategory = function(){
-//     $('#container').empty().load('partials/category-form.html',function(response,status,xhr){
-//       var $form = $('#category-form');
-//       $form.on('submit',function(event){
-//         category.updateProcessForm(event,$form);
-//       });
-//     });
-// };
+ App.updateCategory = function(){
+     $('#container').empty().load('partials/category-form.html',function(response,status,xhr){
+       var $form = $('#category-form');
+       $form.on('submit',function(event){
+         Category.updateCategoryForm(event,$form);
+       });
+     });
+ };
 
-// category.updateProcessForm = function(e,form){
-//   var locate = window.location.hash;
-//   var point = locate.lastIndexOf('/');
-//   var categoryId = parseInt(locate.substring(point+1, locate.length));
-//   if(e.preventDefault) e.preventDefault();
-//   var name = $(form).find("input[name='category-name']").val();
-//   category.updatePostParams(name, categoryId);
-// };
+ Category.updateCategoryForm = function(e,form){
+   var locate = window.location.hash;
+   var point = locate.lastIndexOf('/');
+   var categoryId = parseInt(locate.substring(point+1, locate.length));
+   if(e.preventDefault) e.preventDefault();
+   var name = $(form).find("input[name='category-name']").val();
+   Category.updateCategoryParams(name, categoryId);
+ };
 
-// category.updatePostParams = function(name, categoryId){
-//   $.ajax({
-//     url: App.url + '/categories/' + categoryId,
-//     type: 'PATCH',
-//     data: {
-//       category: {
-//         name: name
-//       },
-//     },
-//     complete: function(jqXHR,textStatus){
-//       trace(jqXHR, textStatus, "complete post!!");
-//     },
-//     success: function(data, textStatus, jqXHR){
-//       router.navigate("categories",{trigger: true});
-//       trace(data,textStatus, jqXHR, "successful post!!");
-//     },
-//     error: function(jqXHR,error,exception){
-//       trace(jqXHR,error,exception);
-//     },
-//   }).done(function(response){
-//     trace(response, "posted category!!");
-//   }).fail(function(jqXHR, textStatus, thrownError){
-//     trace(jqXHR, textStatus, thrownError);
-//     router.navigate("categories",{trigger: true});
-//   }).always(function(response){
-//     trace(response);
-//   });
-// };
+ Category.updateCategoryParams = function(name, categoryId){
+   $.ajax({
+     url: App.url + '/categories/' + categoryId,
+     type: 'PATCH',
+     data: {
+       category: {
+         name: name
+       },
+     },
+     complete: function(jqXHR,textStatus){
+       trace(jqXHR, textStatus, "complete post!!");
+     },
+     success: function(data, textStatus, jqXHR){
+       router.navigate("categories",{trigger: true});
+       trace(data,textStatus, jqXHR, "successful post!!");
+     },
+     error: function(jqXHR,error,exception){
+       trace(jqXHR,error,exception);
+     },
+   }).done(function(response){
+     trace(response, "posted category!!");
+   }).fail(function(jqXHR, textStatus, thrownError){
+     trace(jqXHR, textStatus, thrownError);
+     router.navigate("categories",{trigger: true});
+   }).always(function(response){
+    trace(response);
+   });
+ };
 
-// App.deleteCategory = function(){
-//   $('#container').empty();
-//   $('.jumbotron').hide();
-//   var locate = window.location.hash;
-//   var point = locate.lastIndexOf('/');
-//   var categoryId = parseInt(locate.substring(point+1, locate.length));
-//   $.ajax({
-//     url: App.url + '/categories/' + categoryId,
-//     type: 'DELETE',
-//   }).done(function(data){
-//     trace(data);
-//     window.location.href = '/categories';
-//   }).fail(function(jqXHR, textStatus, errorThrown){
-//     trace(App.url + '/#/categories/' + categoryId);
-//     trace(jqXHR, textStatus, errorThrown);
-//   });
-// }
+ App.deleteCategory = function(){
+   $('#container').empty();
+   $('.jumbotron').hide();
+   var locate = window.location.hash;
+   var point = locate.lastIndexOf('/');
+   var categoryId = parseInt(locate.substring(point+1, locate.length));
+   $.ajax({
+     url: App.url + '/categories/' + categoryId,
+     type: 'DELETE',
+   }).done(function(data){
+     trace(data);
+     window.location.href = '/#/categories';
+   }).fail(function(jqXHR, textStatus, errorThrown){
+     trace(App.url + '/#/categories/' + categoryId);
+     trace(jqXHR, textStatus, errorThrown);
+   });
+ };
+
 
 var router = new Router();
 Backbone.history.start();
