@@ -111,18 +111,7 @@
         <!-- endbuild -->
 
         <!-- build handlebars template for the home page, which populates with all of the submisstions from the api -->
-        <script type="text/x-handlebars-template" id="usersTemplate">
-          {{#each users}}
-            <div class="user">
-              <h2><a href="/#/users/{{id}}" >{{username}}</a></h2>
-              <ul>
-                <li>{{name}}</li>
-                <li>{{email}}</li>
-                <li><a href="/#/users/{{id}}">View this user</a></li>
-              </ul>
-            </div>
-          {{/each}}
-        </script>
+
 
         <script type="text/x-handlebars-template" id="userTemplate">
         <div class="user-container">
@@ -137,13 +126,14 @@
               <li>Name: {{user.name}}</li>
               <li>Email: {{user.email}}</li>
             </ul>
+            <button type='button' id='update-user'>Update this user!</button>
           </div>
         </div>
         </script>
 
         <script type="text/x-handlebars-template" id="categoriesTemplate">
           <div class="newcategory">
-          <a href="#/new-category">Create a New Category!</a>
+           <a href="#/new-category">Create a New Category!</a>
           </div>
           <div class="row row-same-height">
           {{#each categories}}
@@ -160,28 +150,22 @@
 
         <script type="text/x-handlebars-template" id="categoryTemplate">
         <div class="category-container">
-            <div id="mycategory" class="category">
+            <div id="myCategory" class="category">
               <h2>{{category.name}}</h2>
               {{#each category.resources}}
                 <h2>{{title}}</h2>
-                <h2><a href="#/categories/{{id}}/resources/{{id}}" >{{url}}</a></h2>
+                <h2><a href="#/resources/{{id}}" >{{url}}</a></h2>
               {{/each}}
               </ul>
             </div>
             <div class="category-buttons">
               <button type='button' id='new-resource'>Add a resource!</button>
+              <button type='button' id='update-resource'>Update a resource!</button>
+              <button type='button' id='delete-resource'>Delete a resource!</button>
               <button type='button' id='update-category'>Update this category!</button>
               <button type='button' id='delete-category'>Delete this category!</button>
             </div>
         </script>
-
-        <script type="text/x-handlebars-template" id="updateCategoryTemplate">
-          <div class="updatecategory">
-          <p>test</p>
-          </div>
-        </script>
-
-
 
         <script type="text/x-handlebars-template" id="resourceTemplate">
           <div class="category-container">
