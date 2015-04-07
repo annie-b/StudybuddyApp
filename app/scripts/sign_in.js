@@ -8,7 +8,6 @@ var UserApp = (function() {
   var apiHost;
 
   var run = function() {
-    debugger;
     authToken = localStorage.getItem('authToken');
     apiHost = 'http://localhost:3000';
     setupAjaxRequests();
@@ -18,7 +17,6 @@ var UserApp = (function() {
   };
 
   var submitRegistration = function(event) {
-    debugger;
     event.preventDefault();
     $.ajax({
       url: apiHost + '/users',
@@ -26,7 +24,6 @@ var UserApp = (function() {
       data: {user: {username: $('#username').val(), name: $('#name').val(),email: $('#email').val(), password: $('#password').val()}},
     })
     .done(function(results){
-      debugger;
       loginSuccess(results);
     })
     .fail(function(err) {
@@ -43,7 +40,6 @@ var UserApp = (function() {
       url: App.url + '/users/' + userData.id,
       type: 'GET'
     }).done(function(response){
-      debugger;
       var template = Handlebars.compile($('#userTemplate').html());
       $('#container').html(template({
         user: response
@@ -61,11 +57,10 @@ var UserApp = (function() {
     }).always(function(response){
       trace(response);
     });
-     window.location.href = '#/users/' + userData.id;
+     window.location.href = '/#/users/' + userData.id;
   };
 
   var submitLogin = function(event) {
-    debugger;
     var $form;
     event.preventDefault();
     $form = $(this);
@@ -75,7 +70,6 @@ var UserApp = (function() {
       data: $form.serialize()
     })
     .done(function(results){
-      debugger;
       loginSuccess(results);
     })
     .fail(function(err) {
@@ -113,7 +107,6 @@ var UserApp = (function() {
 })();
 
 $(document).ready(function() {
-  debugger;
   UserApp.run();
 });
 
