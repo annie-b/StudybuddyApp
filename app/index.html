@@ -12,6 +12,7 @@
     <!-- <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" /> -->
     <!-- endbower -->
     <!-- endbuild -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
@@ -34,8 +35,14 @@
       </div>
 
       <section class="jumbotron">
-        <h1>Study Buddy</h1>
+        <h1>Studious.ly</h1>
+        <img src="images/backpack.png"/>
+        <img src="images/math.png"/>
+        <img src="images/calculator.png"/>
+        <img src="images/books.png"/>
+        <img src="images/blackboard.png"/>
           <form id='sign-up-form'>
+          <h4>Sign Up</h4>
             <fieldset>
               <div class="form-group">
                 <label for="name">Name:</label>
@@ -60,6 +67,7 @@
             </fieldset>
           </form>
           <form id='sign-in-form'>
+          <h4>Sign In</h4>
             <fieldset>
               <div class="form-group">
                 <label for="username">Username: </label>
@@ -106,12 +114,11 @@
         <!-- build:js({app,.tmp}) scripts/main.js -->
         <script src="scripts/main.js"></script>
          <script src="scripts/sign_in.js"></script>
-        <!-- <script src="scripts/amazon.js"></script> -->
+        <script src="scripts/avatar.js"></script>
 
         <!-- endbuild -->
 
         <!-- build handlebars template for the home page, which populates with all of the submisstions from the api -->
-
 
         <script type="text/x-handlebars-template" id="userTemplate">
         <div class="user-container">
