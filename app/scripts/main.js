@@ -188,6 +188,7 @@ Category.newCategoryParams = function(name, router){
  };
 
  Resource.newResource = function(){
+    debugger;
    $('#container').empty().load('partials/resource-form.html',function(response,status,xhr){
      var $form = $('#resource-form');
     $form.on('submit',function(event){
@@ -237,6 +238,7 @@ Resource.newResourceForm = function(e,form,router){
  };
 
  Resource.updateResource = function(){
+  debugger;
    $('#container').empty().load('partials/resource-form.html',function(response,status,xhr){
      var $form = $('#resource-form');
      $form.on('submit',function(event){
@@ -246,6 +248,7 @@ Resource.newResourceForm = function(e,form,router){
  };
 
  Resource.updateResourceForm = function(e,form){
+  debugger;
    var locate = window.location.hash;
    var point = locate.lastIndexOf('/');
    var resourceId = parseInt(locate.substring(point+1, locate.length));
@@ -435,13 +438,14 @@ App.updateFlashcard = function(){
    });
  };
 
- App.updateUser = function(){
-     $('#container').empty().load('partials/user-form.html',function(response,status,xhr){
-       var $form = $('#user-form');
-       $form.on('submit',function(event){
-         User.updateUserForm(event,$form);
-       });
-     });
+ User.updateUser = function(){
+  debugger;
+   $('#container').empty().load('partials/user-form.html',function(response,status,xhr){
+      var $form = $('#user-form');
+      $form.on('submit',function(event){
+        User.updateUserForm(event,$form);
+      });
+    });
  };
 
  User.updateUserForm = function(e,form){
@@ -468,7 +472,7 @@ App.updateFlashcard = function(){
        trace(jqXHR, textStatus, "complete post!!");
      },
      success: function(data, textStatus, jqXHR){
-       router.navigate("users",{trigger: true});
+       // router.navigate("users",{trigger: true});
        trace(data,textStatus, jqXHR, "successful post!!");
      },
      error: function(jqXHR,error,exception){
@@ -478,9 +482,9 @@ App.updateFlashcard = function(){
      trace(response, "posted user!!");
    }).fail(function(jqXHR, textStatus, thrownError){
      trace(jqXHR, textStatus, thrownError);
-     router.navigate("users",{trigger: true});
-   }).always(function(response){
-    trace(response);
+     // router.navigate("users",{trigger: true});
+   // }).always(function(response){
+   //  trace(response);
    });
  };
 

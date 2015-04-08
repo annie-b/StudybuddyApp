@@ -47,7 +47,7 @@ App.postImageToRails = function(fileName){
     type: 'PATCH',
     data: {
       user: {
-        avatar: 'https://s3.amazonaws.com/db-puzzle-pics/' + fileName
+        avatar: 'https://s3.amazonaws.com/studiously-bucket/' + fileName
       }
     }
   }).done(function(response){
