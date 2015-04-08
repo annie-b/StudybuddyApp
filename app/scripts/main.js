@@ -19,15 +19,13 @@ var User = User || {};
 
 var Router = Backbone.Router.extend({
   routes: {
-    'home': 'home',  //http://localhost:9000/#/home,
-    'users': 'users', // http://localhost:9000/users
-    'users/:id': 'user',  //http://localhost:9000/#/users/1
-    'categories': 'categories', //http://localhost:9000/#/categories
-    'categories/:id': 'category',  //http://localhost:9000/#/categories/1
-    'new-category': 'newCategory',//http://localhost:9000/#/new-category
-    'update-category': 'updateCategory',//http://localhost:9000/#/update-category
-    'resources': 'resources', //http://localhost:9000/#/resources
-    'resources/:id': 'resource',  //http://localhost:9000/#/resources/1
+    'home': 'home',
+    'users': 'users',
+    'users/:id': 'user',
+    'categories': 'categories',
+    'categories/:id': 'category',
+    'new-category': 'newCategory',
+    'update-category': 'updateCategory',
 },
 
   home: function(){
