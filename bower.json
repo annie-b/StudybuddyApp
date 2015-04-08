@@ -6,6 +6,12 @@
     "modernizr": "~2.8.1",
     "jquery": "~2.1.3",
     "backbone": "~1.1.2",
-    "handlebars": "~3.0.0"
+    "handlebars": "~3.0.0",
+    "basic-carousel": "basic-web-components/basic-carousel#master"
+  },
+  "resolutions": {
+    "polymer": "master",
+    "core-component-page": "master",
+    "webcomponentsjs": "^0.6.0"
   }
 }
