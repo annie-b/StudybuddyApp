@@ -368,6 +368,55 @@ Resource.newResourceForm = function(e,form,router){
    });
  };
 
+App.updateFlashcard = function(){
+     $('#container').empty().load('partials/flashcard-form.html',function(response,status,xhr){
+       var $form = $('#flashcard-form');
+       $form.on('submit',function(event){
+         Flashcard.updateFlashcardForm(event,$form);
+       });
+     });
+ };
+
+ Flashcard.updateFlashcardForm = function(e,form){
+   var locate = window.location.hash;
+   var point = locate.lastIndexOf('/');
+   var flashcardId = parseInt(locate.substring(point+1, locate.length));
+   if(e.preventDefault) e.preventDefault();
+   var term = $(form).find("input[name='flashcard-term']").val();
+   var definition = $(form).find("input[name='flashcard-definition']").val();
+   Flashcard.updateFlashcardParams(term, definition, flashcardId);
+ };
+
+ Flashcard.updateFlashcardParams = function(term, definition, flashcardId){
+   $.ajax({
+     url: App.url + '/categories/' + categoryId + '/flashcards/' + flashcardId,
+     type: 'PATCH',
+     data: {
+       flashcard: {
+         term: term,
+         definition: defintion
+       },
+     },
+     complete: function(jqXHR,textStatus){
+       trace(jqXHR, textStatus, "complete post!!");
+     },
+     success: function(data, textStatus, jqXHR){
+       router.navigate("flashcards",{trigger: true});
+       trace(data,textStatus, jqXHR, "successful post!!");
+     },
+     error: function(jqXHR,error,exception){
+       trace(jqXHR,error,exception);
+     },
+   }).done(function(response){
+     trace(response, "posted flashcard!!");
+   }).fail(function(jqXHR, textStatus, thrownError){
+     trace(jqXHR, textStatus, thrownError);
+     router.navigate("flashcard",{trigger: true});
+   }).always(function(response){
+    trace(response);
+   });
+ };
+
  App.deleteFlashcard = function(){
    $('#container').empty();
    $('.jumbotron').hide();
@@ -375,11 +424,11 @@ Resource.newResourceForm = function(e,form,router){
    var point = locate.lastIndexOf('/');
    var categoryId = parseInt(locate.substring(point+1, locate.length));
    $.ajax({
-     url: App.url + '/categories/' + categoryId,
+     url: App.url + '/categories/' + categoryId + '/flashcards/' + flashcardId,
      type: 'DELETE',
    }).done(function(data){
      trace(data);
-     window.location.href = '/#/categories';
+     window.location.href = '/#/categories' + categoryId;
    }).fail(function(jqXHR, textStatus, errorThrown){
      trace(App.url + '/#/categories/' + categoryId);
      trace(jqXHR, textStatus, errorThrown);
