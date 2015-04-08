@@ -150,41 +150,6 @@ var Router = Backbone.Router.extend({
       });
     });
   },
-
-  resource: function(id){
-    $('#container').empty();
-    $('.jumbotron').hide();
-    var locate = window.location.hash;
-    var point = locate.lastIndexOf('/');
-    var resourceId = parseInt(locate.substring(point+1, locate.length));
-    $.ajax({
-      url: App.url + '/resources/' + resourceId,
-      type: 'GET'
-    }).done(function(response){
-      var template = Handlebars.compile($('#resourceTemplate').html());
-      $('#container').html(template({
-        resource: response.resource
-      }));
-
-      $('#update-resource').on('click', function(){
-        resource.updateResource();
-        trace('hi update button is active');
-      });
-
-      $('#delete-resource').on('click', function(){
-        var result = confirm("Do you want to delete this resource?");
-        if (result) {
-          resource.deleteResource();
-        }
-      });
-
-    }).fail(function(jqXHR, textStatus, errorThrown){
-      trace(jqXHR, textStatus, errorThrown);
-    }).always(function(response){
-      trace(response);
-    });
-  },
-
 });
 
 Category.newCategoryForm = function(e,form,router){
@@ -386,6 +351,24 @@ Resource.newResourceForm = function(e,form,router){
  };
 
  App.deleteCategory = function(){
+   $('#container').empty();
+   $('.jumbotron').hide();
+   var locate = window.location.hash;
+   var point = locate.lastIndexOf('/');
+   var categoryId = parseInt(locate.substring(point+1, locate.length));
+   $.ajax({
+     url: App.url + '/categories/' + categoryId,
+     type: 'DELETE',
+   }).done(function(data){
+     trace(data);
+     window.location.href = '/#/categories';
+   }).fail(function(jqXHR, textStatus, errorThrown){
+     trace(App.url + '/#/categories/' + categoryId);
+     trace(jqXHR, textStatus, errorThrown);
+   });
+ };
+
+ App.deleteFlashcard = function(){
    $('#container').empty();
    $('.jumbotron').hide();
    var locate = window.location.hash;
