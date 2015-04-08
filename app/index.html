@@ -13,6 +13,7 @@
     <!-- endbower -->
     <!-- endbuild -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="import" href="bower_components/basic-carousel/basic-carousel.html">
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
@@ -184,6 +185,21 @@
               <ul>
                 <li>url: {{resource.url}}</li>
               </ul>
+            </div>
+          </div>
+        </script>
+
+        <script type="text/x-handlebars-template" id="flashcardTemplate">
+          <div class="category-container">
+            <button type='button' id='create-flashcard'>Create a deck!</button>
+            <button type='button' id='update-flashcard'>Update this deck!</button>
+            <button type='button' id='delete-flashcard'>Delete this deck!</button>
+            <div class="flashcard">
+              <basic-carousel>{{flashcard.term}}</basic-carousel>
+              <flip-card axis="x">
+                <front>Front of card</front>
+                <back>Back of card</back>
+              </flip-card>
             </div>
           </div>
         </script>
