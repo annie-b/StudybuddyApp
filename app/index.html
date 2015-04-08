@@ -125,16 +125,18 @@
         <script type="text/x-handlebars-template" id="userTemplate">
         <div class="user-container">
           <div class="user">
-            <h2>{{user.username}}</h2>
+            <h2>{{user.name}}</h2>
             <img src={{user.avatar}} height="150"><br>
             <p><button id="avatar-change">Change my avatar</button></p>
             <div id="avatar-form-slide">
               <form id="avatar" action="" method="post" enctype="multipart/form-data"></form>
             </div>
             <ul>
-              <li>Name: {{user.name}}</li>
+              <li>Username: {{user.username}}</li>
               <li>Email: {{user.email}}</li>
             </ul>
+          </div>
+          <div class="user-buttons">
             <button type='button' id='update-user'>Update this user!</button>
           </div>
         </div>
@@ -144,17 +146,15 @@
           <div class="newcategory">
            <a href="#/new-category">Create a New Category!</a>
           </div>
-          <div class="row row-same-height">
-          {{#each categories}}
-            <div class="category col-md-4 col-lg-height col-top">
-              <div class="category-background">
-              <h2><a href="#/categories/{{id}}" >{{name}}</a></h2>
-              <ul>
-              </ul>
+            <div class="row row-same-height catstyle">
+            {{#each categories}}
+              <div class="category col-md-4 col-lg-height col-top">
+                <div class="category-background">
+                <h4><a href="#/categories/{{id}}" >{{name}}</a></h4>
+                </div>
               </div>
+            {{/each}}
             </div>
-          {{/each}}
-          </div>
         </script>
 
         <script type="text/x-handlebars-template" id="categoryTemplate">
@@ -163,14 +163,14 @@
               <h2>{{category.name}}</h2>
               {{#each category.resources}}
                 <h2>{{title}}</h2>
-                <h2><a href="#/resources/{{id}}" >{{url}}</a></h2>
+                <h2>{{url}}</h2>
+                <button type='button' id='update-resource'>Update a resource!</button>
+                <button type='button' id='delete-resource'>Delete a resource!</button>
               {{/each}}
               </ul>
             </div>
             <div class="category-buttons">
               <button type='button' id='new-resource'>Add a resource!</button>
-              <button type='button' id='update-resource'>Update a resource!</button>
-              <button type='button' id='delete-resource'>Delete a resource!</button>
               <button type='button' id='update-category'>Update this category!</button>
               <button type='button' id='delete-category'>Delete this category!</button>
             </div>
@@ -196,7 +196,7 @@
             <button type='button' id='delete-flashcard'>Delete this deck!</button>
             <div class="flashcard">
               <basic-carousel>{{flashcard.term}}</basic-carousel>
-              <flip-card axis="x">
+              <flip-card axis="y">
                 <front>Front of card</front>
                 <back>Back of card</back>
               </flip-card>
