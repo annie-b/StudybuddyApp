@@ -257,7 +257,7 @@ Resource.newResourceForm = function(e,form,router){
 
  Resource.updateResourceParams = function(title, url, resourceId){
    $.ajax({
-     url: App.url + '/resources/' + resourceId,
+     url: App.url + '/categories/' + categoryId + '/resources/' + resourceId,
      type: 'PATCH',
      data: {
        resource: {
@@ -292,12 +292,12 @@ Resource.newResourceForm = function(e,form,router){
    var point = locate.lastIndexOf('/');
    var resourceId = parseInt(locate.substring(point+1, locate.length));
    $.ajax({
-     url: App.url + '/resources/' + resourceId,
+     url: App.url + '/categories/' + categoryId + '/resources/' + resourceId,
      type: 'DELETE',
    }).done(function(data){
      trace(data);
      trace('deleted category');
-     window.location.href = '/#/categories';
+     window.location.href = '/#/categories' + categoryId;
    }).fail(function(jqXHR, textStatus, errorThrown){
      trace(jqXHR, textStatus, errorThrown);
    });
